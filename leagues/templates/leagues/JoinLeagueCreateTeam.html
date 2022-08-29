@@ -1,0 +1,46 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<form action="{% url 'create_team_for_league' %}" class="g-3 needs-validation" method="POST">
+    {% csrf_token %}
+    <div class="row justify-content-center pt-3">
+        <div class="col-11 col-xxl-5 text-center">
+            <h4>Crea la tua Squadra</h4>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="team_name" id="team" placeholder="Nome della Squadra" autocomplete="off">
+                <label for="team">Nome della Squadra</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="coach_name" id="coach" placeholder="Nome Fantallenatore" autocomplete="off" value="{{request.user.username}}" readonly>
+                <label for="allenatore">Nome Fantallenatore</label>
+            </div>
+            <input type="hidden" name="league_pk" value="{{league.pk}}">
+        </div>
+    </div>
+
+    <div class="row justify-content-center pt-4 pb-2">
+        <div class="col-xxl-5 col-11 text-center d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Procedi</button>
+        </div>
+    </div>
+
+</form>
+
+{% if status %}
+    <div class="row justify-content-center pt-3">
+        <div class="col-11 col-xxl-5 text-center">
+            <div class="alert alert-danger d-flex justify-content-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                {{status}}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+{% endblock content %}
+
+{% block javascript %} 
+
+
+{% endblock javascript %}

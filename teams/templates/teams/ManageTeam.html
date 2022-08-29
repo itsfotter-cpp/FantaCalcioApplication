@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-4 col-xl-5 col-12 text-center">
+        <h4>{{league.leaguename}}</h4>
+        <form action="{% url 'add_player_to_team' id_league=league.pk %}" method="POST">
+            {% csrf_token %}
+            <div class="row pt-1">
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="ruolo" name="ruolo" required onchange="EmptyList();">
+                        <option selected disabled value="">Scegli il ruolo...</option>
+                        <option value="P">Portiere</option>
+                        <option value="D">Difensore</option>
+                        <option value="C">Centrocampista</option>
+                        <option value="A">Attaccante</option>
+                    </select>
+                    <label for="fanta_team">Ruolo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="player_name" name="player_name" placeholder="Nome Giocatore" list="playerList" autocomplete="off" onkeyup="LoadPlayer(this.value, document.getElementById('ruolo').value);" required>
+                    <label for="floatingInput">Nome Giocatore</label>
+                    <datalist id="playerList">
+
+                    </datalist>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="player_cost" name="player_cost" placeholder="Costo Giocatore" required>
+                    <label for="player_cost">Costo Giocatore</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="fanta_team" name="fanta_team" required>
+                    <option selected disabled value="">Scegli il team...</option>
+                    {% for t in teams %} 
+                        <option value="{{t.teamname}}">{{t.teamname}}</option>
+                    {% endfor %}
+                    </select>
+                    <label for="fanta_team">Team</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="d-grid gap-2">
+                    <button type="submit" name="save_operation" class="btn btn-success">SAVE</button>
+                </div>
+            </div>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="row justify-content-center pt-3">
+                    <div class="col-12 col-xl-5 col-xxl-12 text-center">
+                        <div class="alert alert-danger d-flex justify-content-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {{message}}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-4 col-xl-5 col-12 text-center">
+        <div class="table-responsive">
+            <table class="table table-primary table-hover align-middle">
+                <thead>
+                    <tr>
+                    <th scope="col">Nome Giocatore</th>
+                    <th scope="col">Ruolo</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %} 
+                    <tr>
+                        <td>{{player.nome}}</td>
+                        <td>{{player.ruolo}}</td>
+                        <td>{{player.id_team.teamname}}</td>
+                        <td>{{player.costo}}</td>
+                        <td>
+                            <form action="{% url 'delete_player_from_team' pk=player.pk %}" method="POST">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger btn-sm" onclick="AreYouSure(this);"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-2">
+    <div class="col-xxl-4 col-xl-5 col-12 text-center">
+        <div class="d-grid gap-2">
+            <a href="{% url 'detailed_league' pk=league.pk %}" class="btn btn-primary">MONITORA LEGA</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block javascript %} 
+
+<script>
+
+    function LoadPlayer(player, ruolo) {
+        var url = "{% url 'load_player' %}"; 
+
+        $.ajax({                    
+            url: url,
+            async: false,                   
+            data: {
+            'player': player,
+            'ruolo': ruolo  
+            },
+
+            success: function (playerList) {   
+            $("#playerList").html(playerList);  
+            }
+        });
+
+    }
+
+    function EmptyList() {
+
+        var player = document.getElementById("player_name");
+        player.value = "";
+        document.getElementById("playerList").innerHTML = "";
+    }
+
+    function AreYouSure(button) {
+
+        if (confirm("Sei sicuro di voler salvare questa operazione senza alcuna chiamata collegata?")) {
+            button.type = 'submit';
+            }
+    }
+
+</script>
+
+{% endblock javascript %}

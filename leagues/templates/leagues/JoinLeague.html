@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<form action="{% url 'join_a_league' %}" class="g-3 needs-validation" method="POST">
+    {% csrf_token %}
+    <div class="row justify-content-center pt-5">
+        <div class="col-11 col-xxl-5 text-center">
+            <h4>Unisciti alla Lega</h4>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="league_name" id="league" placeholder="Nome della Lega" required autocomplete="off">
+                <label for="league">Nome della Lega*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" name="password_league" id="password_league" placeholder="Password Lega" required autocomplete="off">
+                <label for="password_league">Password Lega*</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center pt-4 pb-2">
+        <div class="col-xxl-5 col-11 text-center d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Procedi</button>
+        </div>
+    </div>
+
+</form>
+
+{% if status %}
+    <div class="row justify-content-center pt-3">
+        <div class="col-11 col-xxl-5 text-center">
+            <div class="alert alert-danger d-flex justify-content-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                {{status}}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+{% endblock content %}
+
+{% block javascript %} 
+
+
+{% endblock javascript %}

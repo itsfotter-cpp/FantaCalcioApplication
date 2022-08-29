@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-8 col-12 text-center">
+        <div class="row">
+            <div class="col-sm-6 mt-1">
+                <div class="card">
+                <div class="card-body">
+                    <!-- <h5 class="card-title">Special title treatment</h5> -->
+                    <p class="card-text">Crea una tua Lega. <br> Gestiscila come un Presidente.</p>
+                    <a href="{% url 'create_new_league' %}" class="btn btn-fanta btn-lg">Crea una Lega</a>
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mt-1">
+                <div class="card">
+                <div class="card-body">
+                    <!-- <h5 class="card-title">Special title treatment</h5> -->
+                    <p class="card-text">Esiste già una Lega a cui vuoi aggiungerti? <br> Unisciti alla Lega per tenere sotto controllo la tua squadra</p>
+                    <a href="{% url 'join_a_league' %}" class="btn btn-fanta btn-lg">Unisciti ad una Lega</a>
+                </div>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-8 col-12 text-center">
+        <div class="row pt-3 px-1">
+            <div class="table-responsive">
+                <table class="table table-primary table-hover align-middle caption-top">
+                    <caption>Queste sono le Leghe di cui fai parte</caption>
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome Lega</th>
+                        <th scope="col">Numero Partecipanti</th>
+                        <th scope="col">Crediti Iniziali</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in user %} 
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{u.id_league.leaguename}}</td>
+                            <td>{{u.id_league.teamnumber}}</td>
+                            <td>{{u.id_league.crediti}}</td>
+                            <td>
+                                {% if u.rank == "Admin" %}
+                                    <a href="{% url 'detailed_league' pk=u.id_league.pk %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

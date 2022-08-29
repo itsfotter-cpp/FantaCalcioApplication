@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-8 col-xl-9 col-12 text-center">
+        <p>In questa sezione puoi controllare tutte le squadre che sono iscritte alla tua Lega</p>
+        <h4>{{teams.0.id_league.leaguename}}</h4>
+        <div class="row pt-3 px-1">
+            <table class="table table-primary table-hover align-middle table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nome Team</th>
+                      <th scope="col">Coach</th>
+                      <th scope="col">Crediti disponibili</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for t in teams %} 
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{t.teamname}}</td>
+                        <td>
+                            {{t.firstfantacoach}}
+                            {% if t.secondfantacoach %} 
+                                - {{t.secondfantacoach}} 
+                            {% endif %}
+                        </td>
+                        <td>{{t.crediti}}</td>
+                        <td>
+                          <a href="{% url 'detailed_team' pk=t.pk %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

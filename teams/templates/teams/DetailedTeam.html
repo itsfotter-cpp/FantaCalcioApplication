@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-2">
+    <div class="col-xxl-6 col-lg-6 col-12 text-center">
+        <h4>{{team.teamname}}</h4>
+        <div class="row pt-3 px-1">
+            <div class="table-responsive">
+                <table class="table table-primary table-hover align-middle">
+                    <thead>
+                        <tr>
+                        <th scope="col">Nome Giocatore</th>
+                        <th scope="col">Ruolo</th>
+                        <th scope="col">Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                            {%if player.ruolo == "P" %}
+                                <tr>
+                                    <td>{{player.nome}}</td>
+                                    <td>{{player.ruolo}}</td>
+                                    <td>{{player.costo}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                        </tr>
+                        {% for player in players %}
+                            {%if player.ruolo == "D" %}
+                                <tr>
+                                    <td>{{player.nome}}</td>
+                                    <td>{{player.ruolo}}</td>
+                                    <td>{{player.costo}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                        </tr>
+                        {% for player in players %}
+                            {%if player.ruolo == "C" %}
+                                <tr>
+                                    <td>{{player.nome}}</td>
+                                    <td>{{player.ruolo}}</td>
+                                    <td>{{player.costo}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                            <td style="background-color: black;"></td>
+                        </tr>
+                        {% for player in players %}
+                            {%if player.ruolo == "A" %}
+                                <tr>
+                                    <td>{{player.nome}}</td>
+                                    <td>{{player.ruolo}}</td>
+                                    <td>{{player.costo}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

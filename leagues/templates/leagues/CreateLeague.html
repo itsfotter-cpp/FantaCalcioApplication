@@ -1,0 +1,83 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<form action="{% url 'create_new_league' %}" class="g-3 needs-validation" method="POST">
+    {% csrf_token %}
+    <div class="row justify-content-center pt-5">
+        <div class="col-11 col-xxl-5 col-xl-5 text-center">
+            <h4>Crea la tua Lega</h4>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="league_name" id="league" placeholder="Nome della Lega" required autocomplete="off">
+                <label for="league">Nome della Lega*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" name="password_league" id="password_league" placeholder="Password Lega" required autocomplete="off">
+                <label for="password_league">Password Lega*</label>
+                    <span id="" class="form-text">
+                      Deve contenere almeno 8 caratteri
+                    </span>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" name="confirm_password_league" id="confirm_password_league" placeholder="Conferma Password Lega" required autocomplete="off">
+                <label for="confirm_password_league">Conferma Password Lega*</label>
+                <div id="confirm_password_league" class="invalid-feedback">
+                    La password deve essere uguale a quella inserita precedentemente
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" name="number_partecipants" id="partecipants" placeholder="Numero dei partecipanti" required autocomplete="off">
+                <label for="partecipants">Numero dei partecipanti*</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="credits" id="credits" placeholder="Crediti" required autocomplete="off">
+                <label for="credits">Crediti iniziali*</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center pt-3">
+        <div class="col-11 col-xxl-5 col-lg-5 text-center">
+            <h4>Crea la tua Squadra</h4>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="team_name" id="team" placeholder="Nome della Squadra" autocomplete="off">
+                <label for="team">Nome della Squadra</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="coach_name" id="coach" placeholder="Nome Fantallenatore" autocomplete="off">
+                <label for="allenatore">Nome Fantallenatore</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center pt-4 pb-2">
+        <div class="col-xxl-5 col-lg-5 col-11 text-center d-grid gap-2">
+            <button type="button" id="proceeds" class="btn btn-primary btn-lg" onclick="ControlPassword();">Procedi</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock content %}
+
+{% block javascript %} 
+
+<script>
+
+function ControlPassword() {
+    var pass = document.getElementById('password_league');
+
+    var confirm_pass = document.getElementById('confirm_password_league');
+
+    if(pass.value != confirm_pass.value) {
+        confirm_pass.classList.add('is-invalid');
+    }
+
+    else {
+        confirm_pass.classList.remove('is-invalid');
+        document.getElementById('proceeds').type = 'submit';
+    }
+}
+
+</script>
+
+{% endblock javascript %}

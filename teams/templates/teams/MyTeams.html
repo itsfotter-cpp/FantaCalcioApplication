@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-xxl-6 col-lg-6 col-12 text-center">
+        <div class="row justify-content-center">
+            <div class="col-xxl-6 col-lg-6 col-12 mt-1">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Special title treatment</h5> -->
+                        <p class="card-text">Se in precedenza hai creato una lega senza iscrivere un tuo Team. Puoi farlo adesso!</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Add my Team to my League
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+
+
+<div class="row justify-content-center mt-2">
+    <div class="col-xxl-6 col-lg-6 col-12 text-center">
+        <div class="row pt-3 px-1">
+            <div class="table-responsive">
+                <table class="table table-primary table-hover align-middle">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome Team</th>
+                        <th scope="col">Nome Lega</th>
+                        <th scope="col">Crediti disponibili</th>
+                        <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in team %} 
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{t.teamname}}</td>
+                            <td>{{t.id_league.leaguename}}</td>
+                            <td>{{t.crediti}}</td>
+                            <td style='white-space: nowrap'>
+                                <a href="{% url 'detailed_team' pk=t.pk %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Inserisci il tuo team ad una tua Lega</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'add_team_to_my_league' %}" method="POST" class="row g-3">
+                <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="team_name" id="team_name" placeholder="Team Name" required>
+                            <label for="team_name">Team Name</label>
+                        </div>
+                        <select class="form-select form-select-lg mb-3" name="league" aria-label=".form-select-lg example" required>
+                            <option selected disabled>Seleziona una Lega</option>
+                            {% for l in league %} 
+                                <option value="{{l.pk}}">{{l.leaguename}}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
